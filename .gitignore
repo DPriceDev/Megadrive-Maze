@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# SGDK
+/src/boot/
+/out/
+/cmake-build-debug/
+/.idea/
