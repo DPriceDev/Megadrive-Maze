@@ -1,0 +1,1 @@
+SPRITE axeman "sprites/axeman.bmp" 4 4 NONE

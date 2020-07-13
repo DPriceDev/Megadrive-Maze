@@ -7,7 +7,12 @@ set(HEADER_FILES
         depends/sgdk/inc
         depends/sgdk/res)
 
+set(SRC
+        src/main.c
+        src/joystick_handler.c
+        src/boot/rom_head.c)
+
 project(Megadrive-Maze)
 
-add_executable(maze src/main.c ${HEADER_FILES})
+add_executable(maze ${SRC} ${HEADER_FILES})
 target_include_directories(maze PUBLIC ${HEADER_FILES})
