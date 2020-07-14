@@ -11,7 +11,21 @@ These are the specific requirements for setting the project up with Clion as of 
 
 The main requirement for this project is Clion 2020.2 or above.
 
-### Installing
+## Building
+
+To clone this repo, use the '--recursive' flag to capture the submodule dependencies.
+
+```
+git clone --recursive https://github.com/DPriceDev/Megadrive-Maze
+```
+
+Once cloned, the project can be opened directly in Clion. There are two targets setup in the cmake "Megadrive-maze" and "dummy".
+Dummy is setup to allow file discovery and is not a runnable target. The project can be built by building the Megadrive-maze cmake target.
+
+### Building the hard way
+
+There is a harder way to do this (my first attempt at building this before switching to cmake) by explicitly declaring make as an external tool. These instructions are here for 
+posterity, as I would suggest using the Cmake project to build the project instead.
 
 To clone this repo, use the '--recursive' flag to capture the submodule dependencies.
 
@@ -21,38 +35,49 @@ git clone --recursive https://github.com/DPriceDev/Megadrive-Maze
 
 Open the repo folder in Clion. Once loaded you can begin to setup the configuration. Open the configurations dialog, 
 usually shown in the top right of the IDE or from the toolbar:
+
 ```
 run -> edit configurations...
 ```
+
 From here you can setup the makefile configuration by going to:
+
 ```
 + (add new configuration) -> Makefile Application
 name: SGDK Build
 ```
+
 Now the target needs to be set, open up the custom targets panel in the settings by clicking the three dots next to the target dropdown, and 
 then adding a custom target:
+
 ```
 target: ... -> Settings -> Build, Excecution and deployment -> Custom Build Targets -> + (add new target)
 
 Custom Build Target
 name: SGDK Target
 ```
+
 Name the target, and then for the build you are going to once again select the three dots next to the build dropdown and then
 select add to add a new external tool.
+
 ```
 build: ... -> external tools -> + (add external tool)
 ```
+
 Once the external tool dialog appears, you are going to need to fill a few sections out, these being name, Program, arguments and working directory.
 The program is going to be the make.exe that comes as part of the SGDK, the argument is the flag and path to the makefile, also from the SGDK, and the
 working directory is the repo project directory.
+
 ```
 name: SGDK Make
 Program:            C:\...path_to_repo...\Megadrive-Maze\depends\sgdk\bin\make.exe
 Arguments:          -f C:\...path_to_repo...\Megadrive-Maze\depends\sgdk\bin\makefile.gen
 Working directory:  C:\...path_to_repo...\Megadrive-Maze
 ```
+
 Once finished, you can create the external tool, set the custom build target as this tool, and then applying that back to the configuration tab, where it can be set as the target for the configuration. when everything
 is complete and done, click create configuration (I also forget to) before closing the dialog.
+
 ```
 custom build target
 build: SGDK Make
@@ -63,7 +88,9 @@ target: SGDK Target
 
 then create configuration...
 ```
+
 From here you can hit the build icon and the rom should build into the out folder.
+
 ```
 out/rom.bin
 ```
@@ -76,14 +103,26 @@ emulators, such as Gensk and regen. The standard gens emulator seems to have gra
 The deployment can be taken further within Clion if you want it to be more automated in running the emulator. This can be done by
 reopening the SGDK Build Configuration and adding the emulator parameters. In this example I am using Gensk. Simply set the executable to the
 gens.exe program and set the program arguments to the path to the rom.
+
+with external makefile tool
 ```
-Configuration
+External Makefile Configuration
 name: SGDK build
 Target: SGDK Target
 Executable: C:\..path_to_emulator..\gensk\gens.exe
 Program Arguement: C:\..path_to_repo\Megadrive-Maze\out\rom.bin
 ```
+or with cmake
+```
+CMake Configuration
+name: Megadrive-Maze
+Target: Megadrive-Maze
+Executable: C:\..path_to_emulator..\gensk\gens.exe
+Program Arguement: C:\..path_to_repo\Megadrive-Maze\out\rom.bin
+```
+
 Now clicking the green run arrow in the IDE will build the rom and then launch it into the emulator.
+
 ## Additional
 
 The project comes with a CMakeList.txt file for compatibility with Clion; however, it does not play an active role in the build
@@ -99,7 +138,7 @@ system, and only provides IDE support for discovering includes and source files.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the Apache v2.0 License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 

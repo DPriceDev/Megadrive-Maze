@@ -14,5 +14,11 @@ set(SRC
 
 project(Megadrive-Maze)
 
-add_executable(maze ${SRC} ${HEADER_FILES})
-target_include_directories(maze PUBLIC ${HEADER_FILES})
+add_custom_target(megadrive-maze ALL
+        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/depends/sgdk/bin/make.exe -f ${CMAKE_CURRENT_SOURCE_DIR}/depends/sgdk/makefile.gen
+        DEPENDS ${HEADER_FILES}
+        SOURCES ${SRC}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_executable(dummy ${SRC} ${HEADER_FILES})
+target_include_directories(dummy PUBLIC ${HEADER_FILES})
