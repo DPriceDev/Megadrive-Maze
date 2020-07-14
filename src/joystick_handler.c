@@ -8,26 +8,24 @@
 
 void joystickHandler(u16 joystick, u16 changed, u16 state) {
     if (joystick == JOY_1) {
-        joystickOneHandler(joystick, changed, state);
+        joystickOneHandler(changed, state);
     } else {
-        joystickTwoHandler(joystick, changed, state);
+        joystickTwoHandler(changed, state);
     }
 }
 
-void joystickOneHandler(u16 joystick, u16 changed, u16 state) {
+void joystickOneHandler(u16 changed, u16 state) {
+    if(state & BUTTON_LEFT) {
+        VDP_setHorizontalScroll(BG_B, 0);
+    } else if(changed & BUTTON_LEFT) {
 
-    if (state & BUTTON_START) {
-        VDP_drawText("player one start pressed", 12, 8);
-    } else if(changed & BUTTON_START) {
-        VDP_drawText("player one start released", 12, 8);
+    }
+
+    if(state & BUTTON_RIGHT) {
+        VDP_setHorizontalScroll(BG_B, 8);
+    } else if(changed & BUTTON_RIGHT) {
+
     }
 }
 
-void joystickTwoHandler(u16 joystick, u16 changed, u16 state) {
-    if (state & BUTTON_START) {
-        VDP_drawText("player two start pressed", 12, 8);
-    }
-    else if (changed & BUTTON_START) {
-        VDP_drawText("player two start released", 12, 8);
-    }
-}
+void joystickTwoHandler(u16 changed, u16 state) { }

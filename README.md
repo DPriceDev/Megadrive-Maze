@@ -143,3 +143,4 @@ This project is licensed under the Apache v2.0 License - see the [LICENSE.md](LI
 ## Acknowledgments
 
 * Inspired by [GameHut](https://www.youtube.com/channel/UCfVFSjHQ57zyxajhhRc7i0g)
+* Thankful for 8-bit the Dungeon Tileset created by [Scut](https://scut.itch.io/7drl-tileset-2018) from itch.io

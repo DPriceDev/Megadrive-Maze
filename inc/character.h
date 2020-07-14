@@ -10,7 +10,6 @@
 struct Character {
     Sprite* mSprite;
     int mX, mY;
-
 };
 
 #endif //MEGADRIVE_MAZE_CHARACTER_H

@@ -9,6 +9,7 @@ set(HEADER_FILES
 
 set(SRC
         src/main.c
+        src/level_one.c
         src/joystick_handler.c
         src/boot/rom_head.c)
 
