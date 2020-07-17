@@ -21,5 +21,5 @@ add_custom_target(megadrive-maze ALL
         SOURCES ${SRC}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_executable(dummy ${SRC} ${HEADER_FILES})
+add_executable(dummy ${SRC})
 target_include_directories(dummy PUBLIC ${HEADER_FILES})
