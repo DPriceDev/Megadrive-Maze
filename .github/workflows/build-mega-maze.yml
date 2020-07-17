@@ -16,4 +16,4 @@ jobs:
     - name: run-cmake
       uses: lukka/run-cmake@v2.5
       with:
-        cmakeAppendedArgs: '--target megadrive-maze' 
+        cmakeAppendedArgs: '--build . --target megadrive-maze' 
