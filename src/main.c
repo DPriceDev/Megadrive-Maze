@@ -5,8 +5,10 @@
 #include <genesis.h>
 
 #include "level_one.h"
+#include "character.h"
 #include "joystick_handler.h"
 
+#include "resource.h"
 
 int main() {
 
@@ -26,8 +28,15 @@ int main() {
     /* Pre-game */
     loadLevelOne();
 
+    VDP_setPalette(PAL1, PlayerWalkingSprite.palette->data);
+
+    initCharacter();
+    setJoystickOneFunction(characterJoystick);
+
     /* Main Loop */
     while (TRUE) {
+        characterTick();
+
         SPR_update();
         VDP_waitVSync();
     }

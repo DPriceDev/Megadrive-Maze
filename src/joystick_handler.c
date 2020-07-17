@@ -6,6 +6,27 @@
 
 #include <genesis.h>
 
+void (*joystickOneFunPointer)(struct JoystickAction*);
+
+void setJoystickOneFunction(void (*functionPointer)(struct JoystickAction*)) {
+    joystickOneFunPointer = functionPointer;
+}
+
+struct JoystickAction* createJoystickAction(enum Button button, enum ButtonAction action) {
+    struct JoystickAction* joystickAction = MEM_alloc(sizeof *joystickAction);
+    joystickAction->mAction = action;
+    joystickAction->mButton = button;
+    return joystickAction;
+}
+
+struct JoystickAction* dispatchButtonActionToJoystickOne(enum Button button, u16 changed, u16 state) {
+    if(state & button) {
+        joystickOneFunPointer(createJoystickAction(button, PRESSED));
+    } else if(changed & button) {
+        joystickOneFunPointer(createJoystickAction(button, RELEASED));
+    }
+}
+
 void joystickHandler(u16 joystick, u16 changed, u16 state) {
     if (joystick == JOY_1) {
         joystickOneHandler(changed, state);
@@ -15,17 +36,10 @@ void joystickHandler(u16 joystick, u16 changed, u16 state) {
 }
 
 void joystickOneHandler(u16 changed, u16 state) {
-    if(state & BUTTON_LEFT) {
-        VDP_setHorizontalScroll(BG_B, 0);
-    } else if(changed & BUTTON_LEFT) {
-
-    }
-
-    if(state & BUTTON_RIGHT) {
-        VDP_setHorizontalScroll(BG_B, 8);
-    } else if(changed & BUTTON_RIGHT) {
-
-    }
+    dispatchButtonActionToJoystickOne(LEFT, changed, state);
+    dispatchButtonActionToJoystickOne(UP, changed, state);
+    dispatchButtonActionToJoystickOne(RIGHT, changed, state);
+    dispatchButtonActionToJoystickOne(DOWN, changed, state);
 }
 
 void joystickTwoHandler(u16 changed, u16 state) { }

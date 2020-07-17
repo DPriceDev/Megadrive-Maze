@@ -48,27 +48,27 @@ void loadLevelOne() {
 
     VDP_setBackgroundColor(2);
 
-    VDP_setPalette(PAL1, tilemap.palette->data);
+    VDP_setPalette(PAL2, tilemap.palette->data);
     VDP_loadTileSet(tilemap.tileset,1,CPU);
 
     for(int r = 0; r < 11; r++) {
         for(int c = 0; c < 12; c++) {
             int index = (r * 12) + c;
-            VDP_setTileMapXY(BG_B, TILE_ATTR_FULL(PAL1, TRUE, FALSE, FALSE, roomOne[index]), c + 2, r + 2);
+            VDP_setTileMapXY(BG_B, TILE_ATTR_FULL(PAL2, TRUE, FALSE, FALSE, roomOne[index]), c + 2, r + 2);
         }
     }
 
     for(int r = 0; r < 11; r++) {
         for(int c = 0; c < 12; c++) {
             int index = (r * 12) + c;
-            VDP_setTileMapXY(BG_B, TILE_ATTR_FULL(PAL1, TRUE, FALSE, FALSE, roomTwo[index]), c + 2 + 15, r + 2 + 3);
+            VDP_setTileMapXY(BG_B, TILE_ATTR_FULL(PAL2, TRUE, FALSE, FALSE, roomTwo[index]), c + 2 + 15, r + 2 + 3);
         }
     }
 
     for(int r = 0; r < 6; r++) {
         for(int c = 0; c < 3; c++) {
             int index = (r * 3) + c;
-            VDP_setTileMapXY(BG_B, TILE_ATTR_FULL(PAL1, TRUE, FALSE, FALSE, corridorOneToTwo[index]), c + 2 + 12, r + 2 + 4);
+            VDP_setTileMapXY(BG_B, TILE_ATTR_FULL(PAL2, TRUE, FALSE, FALSE, corridorOneToTwo[index]), c + 2 + 12, r + 2 + 4);
         }
     }
 
