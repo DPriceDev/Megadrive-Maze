@@ -1,17 +1,16 @@
 cmake_minimum_required(VERSION 3.10)
 
 set(HEADER_FILES
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc
-        ${CMAKE_CURRENT_SOURCE_DIR}/res
-        ${CMAKE_CURRENT_SOURCE_DIR}/lib
-        ${CMAKE_CURRENT_SOURCE_DIR}/depends/sgdk/inc
-        ${CMAKE_CURRENT_SOURCE_DIR}/depends/sgdk/res)
+        inc
+        res
+        depends/sgdk/inc
+        depends/sgdk/res)
 
 set(SRC
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/main.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/level_one.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/joystick_handler.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/boot/rom_head.c src/character.c)
+        src/main.c
+        src/level_one.c
+        src/joystick_handler.c
+        src/boot/rom_head.c src/character.c)
 
 project(Megadrive-Maze)
 
