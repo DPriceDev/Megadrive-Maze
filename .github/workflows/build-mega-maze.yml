@@ -16,7 +16,8 @@ jobs:
       with:
         submodules: recursive
         
+    - name: configure
+      run: mkdir build && cd build && cmake ..  
+      
     - name: Build
-      working-directory: ${{runner.workspace}}
-      shell: bash
-      run: cmake --build . --target megadrive-maze
+      run: cmake --build build --target megadrive-maze
