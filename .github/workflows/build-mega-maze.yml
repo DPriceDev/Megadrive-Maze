@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: recursive
     - name: run-cmake
       uses: lukka/run-cmake@v2.5
       with:
