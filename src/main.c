@@ -4,11 +4,19 @@
 
 #include <genesis.h>
 
-#include "resource.h"
+#include "level_one.h"
 #include "character.h"
 #include "joystick_handler.h"
 
+#include "resource.h"
+
 int main() {
+
+    /* initialise video display processor */
+    VDP_init();
+    VDP_setScreenWidth320();
+    VDP_setScreenHeight224();
+    VDP_setPlanSize(64, 64);
 
     /* Initialize joysticks */
     JOY_init();
@@ -17,16 +25,18 @@ int main() {
     /* Initialize Sprite Engine */
     SPR_init(0, 0, 0);
 
-    /* Pregame */
-    VDP_drawText("MegaDrive Maze!", 10, 10);
+    /* Pre-game */
+    loadLevelOne();
 
-    VDP_setPalette(PAL1, axeman.palette->data);
+    VDP_setPalette(PAL1, PlayerWalkingSprite.palette->data);
 
-    struct Character person;
-    person.mSprite = SPR_addSprite(&axeman, person.mX, person.mY, TILE_ATTR(PAL1, 0, FALSE, FALSE));
+    initCharacter();
+    setJoystickOneFunction(characterJoystick);
 
     /* Main Loop */
     while (TRUE) {
+        characterTick();
+
         SPR_update();
         VDP_waitVSync();
     }
