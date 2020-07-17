@@ -1,5 +1,7 @@
 # Megadrive-Maze
 
+![C CI](https://github.com/DPriceDev/Megadrive-Maze/workflows/C/C++%20CI/badge.svg)
+
 This is a small Sega Megadrive/Genesis game project with an emphasis on running within Clion. The project is a small maze based game, hopefully with a few
 monsters and weapons and such.
 
