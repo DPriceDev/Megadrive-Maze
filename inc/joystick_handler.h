@@ -7,35 +7,35 @@
 
 #include <genesis.h>
 
-enum ButtonAction {
+typedef enum {
     PRESSED,
     RELEASED
-};
+} ButtonAction;
 
-enum Button {
+typedef enum {
     LEFT = BUTTON_LEFT,
     RIGHT = BUTTON_RIGHT,
     UP = BUTTON_UP,
     DOWN = BUTTON_DOWN
-};
+} Button;
 
-struct JoystickAction {
-    enum Button mButton;
-    enum ButtonAction mAction;
-};
+typedef struct {
+    Button mButton;
+    ButtonAction mAction;
+} JoystickAction;
 
-struct JoystickHandler {
-    void (*mJoystickMethod)(void*, struct JoystickAction*);
+typedef struct {
+    void (*mJoystickMethod)(void*, JoystickAction*);
     void* mJoyStickController;
-};
+} JoystickHandler;
 
-struct JoystickHandler* createJoystickHandler(void* controller, void (*joystickMethod)(void*, struct JoystickAction*));
-void setJoystickOneHandler(struct JoystickHandler* handler);
-void setJoystickTwoHandler(struct JoystickHandler* handler);
+JoystickHandler* createJoystickHandler(void* controller, void (*joystickMethod)(void*, JoystickAction*));
+void setJoystickOneHandler(JoystickHandler* handler);
+void setJoystickTwoHandler(JoystickHandler* handler);
 
 void joystickHandler(u16 joystick, u16 changed, u16 state);
-void dispatchJoystickUpdate(struct JoystickHandler* handler, u16 changed, u16 state);
-struct JoystickAction* dispatchButtonActionToJoystick(struct JoystickHandler* handler, enum Button button, u16 changed, u16 state);
-struct JoystickAction* createJoystickAction(enum Button button, enum ButtonAction action);
+void dispatchJoystickUpdate(JoystickHandler* handler, u16 changed, u16 state);
+void dispatchButtonActionToJoystick(JoystickHandler* handler, Button button, u16 changed, u16 state);
+JoystickAction* createJoystickAction(Button button, ButtonAction action);
 
 #endif //MEGADRIVE_MAZE_JOYSTICK_HANDLER_H

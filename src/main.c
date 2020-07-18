@@ -30,10 +30,13 @@ int main() {
 
     /* Create character and assign controller */
     VDP_setPalette(PAL1, PlayerWalkingSprite.palette->data);
-    struct Character *character = createCharacter();
-    struct JoystickHandler* joyHandler = createJoystickHandler(character,
-            (void (*)(void *, struct JoystickAction *)) characterJoystick);
+    Character *character = createCharacter();
+    JoystickHandler* joyHandler = createJoystickHandler(character,
+            (void (*)(void *, JoystickAction *)) characterJoystick);
     setJoystickOneHandler(joyHandler);
+
+    character->mPosition.x = 8 * 7;
+    character->mPosition.y = 8 * 7;
 
     /* Main Loop */
     while (TRUE) {

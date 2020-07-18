@@ -6,37 +6,33 @@
 #define MEGADRIVE_MAZE_CHARACTER_H
 
 #include <genesis.h>
+#include <maths.h>
 #include "resource.h"
 
 #include "joystick_handler.h"
 
-enum LookDirection {
+typedef enum  {
     LOOK_LEFT,
     LOOK_UP,
     LOOK_RIGHT,
     LOOK_DOWN
-};
+} LookDirection;
 
-struct MovementVector {
-    int mX;
-    int mY;
-};
-
-struct Character {
+typedef struct {
     Sprite* mWalkingSprite;
     Sprite* mIdleDownSprite;
     Sprite* mIdleUpSprite;
-    enum LookDirection mLookDirection;
-    int mX, mY;
-    struct MovementVector mMovementVector;
-};
+    V2s16 mPosition;
+    V2s16 mMovementVector;
+    LookDirection mLookDirection;
+} Character;
 
-struct Character *createCharacter();
+Character *createCharacter();
 
-void characterTick(struct Character *character);
+void characterTick(Character *character);
 
-void updatePosition(struct Character *character);
+void updatePosition(Character *character);
 
-void characterJoystick(struct Character* character, struct JoystickAction *joystickAction);
+void characterJoystick(Character* character, JoystickAction *joystickAction);
 
 #endif //MEGADRIVE_MAZE_CHARACTER_H
