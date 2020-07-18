@@ -6,13 +6,22 @@
 
 #include <genesis.h>
 
-void (*joystickOneFunPointer)(void*, struct JoystickAction*);
+struct JoystickHandler* joystickOneHandler;
+struct JoystickHandler* joystickTwoHandler;
 
-void* joyStickOneController;
+struct JoystickHandler* createJoystickHandler(void* controller, void (*joystickMethod)(void*, struct JoystickAction*)) {
+    struct JoystickHandler *handler;
+    handler = MEM_alloc(sizeof *handler);
+    handler->mJoyStickController = controller;
+    handler->mJoystickMethod = joystickMethod;
+    return handler;
+}
 
-void setJoystickOneFunction(void* controller, void (*functionPointer)(void*, struct JoystickAction*)) {
-    joystickOneFunPointer = functionPointer;
-    joyStickOneController = controller;
+void setJoystickOneHandler(struct JoystickHandler* handler) {
+    joystickOneHandler = handler;
+}
+void setJoystickTwoHandler(struct JoystickHandler* handler) {
+    joystickTwoHandler = handler;
 }
 
 struct JoystickAction* createJoystickAction(enum Button button, enum ButtonAction action) {
@@ -22,28 +31,27 @@ struct JoystickAction* createJoystickAction(enum Button button, enum ButtonActio
     return joystickAction;
 }
 
-struct JoystickAction* dispatchButtonActionToJoystickOne(enum Button button, u16 changed, u16 state) {
-    if(state & button) {
-        joystickOneFunPointer(joyStickOneController, createJoystickAction(button, PRESSED));
-    } else if(changed & button) {
-        joystickOneFunPointer(joyStickOneController, createJoystickAction(button, RELEASED));
-    }
-}
 
 void joystickHandler(u16 joystick, u16 changed, u16 state) {
     if (joystick == JOY_1) {
-        joystickOneHandler(changed, state);
+        dispatchJoystickUpdate(joystickOneHandler, changed, state);
     } else {
-        joystickTwoHandler(changed, state);
+        dispatchJoystickUpdate(joystickTwoHandler, changed, state);
     }
 }
 
 //todo: refactor smaller - duplication? list?
-void joystickOneHandler(u16 changed, u16 state) {
-    dispatchButtonActionToJoystickOne(LEFT, changed, state);
-    dispatchButtonActionToJoystickOne(UP, changed, state);
-    dispatchButtonActionToJoystickOne(RIGHT, changed, state);
-    dispatchButtonActionToJoystickOne(DOWN, changed, state);
+void dispatchJoystickUpdate(struct JoystickHandler* handler, u16 changed, u16 state) {
+    dispatchButtonActionToJoystick(handler, LEFT, changed, state);
+    dispatchButtonActionToJoystick(handler, UP, changed, state);
+    dispatchButtonActionToJoystick(handler, RIGHT, changed, state);
+    dispatchButtonActionToJoystick(handler, DOWN, changed, state);
 }
 
-void joystickTwoHandler(u16 changed, u16 state) { }
+struct JoystickAction* dispatchButtonActionToJoystick(struct JoystickHandler* handler, enum Button button, u16 changed, u16 state) {
+    if(state & button) {
+        handler->mJoystickMethod(handler->mJoyStickController, createJoystickAction(button, PRESSED));
+    } else if(changed & button) {
+        handler->mJoystickMethod(handler->mJoyStickController, createJoystickAction(button, RELEASED));
+    }
+}

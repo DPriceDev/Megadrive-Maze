@@ -24,11 +24,18 @@ struct JoystickAction {
     enum ButtonAction mAction;
 };
 
-void joystickHandler(u16 joystick, u16 changed, u16 state);
-void joystickOneHandler(u16 changed, u16 state);
-void joystickTwoHandler(u16 changed, u16 state);
+struct JoystickHandler {
+    void (*mJoystickMethod)(void*, struct JoystickAction*);
+    void* mJoyStickController;
+};
 
-void setJoystickOneFunction(void* controller, void (*functionPointer)(void* controller, struct JoystickAction*));
+struct JoystickHandler* createJoystickHandler(void* controller, void (*joystickMethod)(void*, struct JoystickAction*));
+void setJoystickOneHandler(struct JoystickHandler* handler);
+void setJoystickTwoHandler(struct JoystickHandler* handler);
+
+void joystickHandler(u16 joystick, u16 changed, u16 state);
+void dispatchJoystickUpdate(struct JoystickHandler* handler, u16 changed, u16 state);
+struct JoystickAction* dispatchButtonActionToJoystick(struct JoystickHandler* handler, enum Button button, u16 changed, u16 state);
 struct JoystickAction* createJoystickAction(enum Button button, enum ButtonAction action);
 
 #endif //MEGADRIVE_MAZE_JOYSTICK_HANDLER_H
