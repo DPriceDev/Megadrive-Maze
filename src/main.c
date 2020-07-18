@@ -49,7 +49,7 @@ int main() {
     /* Main Loop */
     bool isRunning = TRUE;
     while (isRunning) {
-        characterTick(character, world);
+        characterTick(character, world->mCamera);
 
         updateCharacterSprite(character, world->mCamera);
         updateCameraScrollPosition(world->mCamera);

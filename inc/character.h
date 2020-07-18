@@ -29,7 +29,7 @@ typedef struct {
 
 Character *createCharacter();
 
-void characterTick(Character *character, World* world);
+void characterTick(Character *character, Camera* camera);
 
 void updateCharacterSprite(Character *character, Camera* camera);
 

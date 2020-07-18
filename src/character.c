@@ -71,13 +71,13 @@ void setLookDirectionFromMovementVector(Character *character) {
     }
 }
 
-void characterTick(Character *character, World* world) {
+void characterTick(Character *character, Camera* camera) {
     character->mPosition.x += character->mMovementVector.x;
     character->mPosition.y += character->mMovementVector.y;
     setLookDirectionFromMovementVector(character);
 
-    world->mCamera->mTargetPosition.x -= character->mMovementVector.x;
-    world->mCamera->mTargetPosition.y += character->mMovementVector.y;
+    camera->mTargetPosition.x -= character->mMovementVector.x;
+    camera->mTargetPosition.y += character->mMovementVector.y;
 }
 
 //todo: refactor smaller - duplication
