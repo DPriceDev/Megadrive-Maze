@@ -10,7 +10,11 @@ set(SRC
         ${CMAKE_CURRENT_SOURCE_DIR}/src/main.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/level_one.c
         ${CMAKE_CURRENT_SOURCE_DIR}/src/joystick_handler.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/boot/rom_head.c src/character.c)
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/boot/rom_head.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/character.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/camera.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc/world.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/world.c)
 
 project(Megadrive-Maze)
 
