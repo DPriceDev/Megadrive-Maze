@@ -9,8 +9,14 @@
 
 typedef struct {
     V2s16 mPosition;
+    V2s16 mTargetPosition;
+    V2s16 mSize;
 } Camera;
 
 Camera* createCamera();
+
+void updateCameraScrollPosition(Camera* camera);
+
+void centerCameraOnPoint(Camera* camera, V2s16 point);
 
 #endif //MEGADRIVE_MAZE_CAMERA_H

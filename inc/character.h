@@ -29,9 +29,9 @@ typedef struct {
 
 Character *createCharacter();
 
-void characterTick(Character *character);
+void characterTick(Character *character, World* world);
 
-void updatePosition(Character *character);
+void updateCharacterSprite(Character *character, Camera* camera);
 
 void characterJoystick(Character* character, JoystickAction *joystickAction);
 

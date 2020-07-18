@@ -5,6 +5,8 @@
 #include <genesis.h>
 
 #include "level_one.h"
+#include "camera.h"
+#include "world.h"
 #include "character.h"
 #include "joystick_handler.h"
 
@@ -15,7 +17,7 @@ int main() {
     /* initialise video display processor */
     VDP_init();
     VDP_setScreenWidth320();
-    VDP_setScreenHeight224();
+    VDP_setScreenHeight240();
     VDP_setPlanSize(64, 64);
 
     /* Initialize joysticks */
@@ -25,24 +27,40 @@ int main() {
     /* Initialize Sprite Engine */
     SPR_init(0, 0, 0);
 
-    /* Pre-game */
-    loadLevelOne();
+    /*
+     * Pre-game
+     */
 
     /* Create character and assign controller */
     VDP_setPalette(PAL1, PlayerWalkingSprite.palette->data);
     Character *character = createCharacter();
     JoystickHandler* joyHandler = createJoystickHandler(character,
             (void (*)(void *, JoystickAction *)) characterJoystick);
+
     setJoystickOneHandler(joyHandler);
 
-    character->mPosition = (V2s16) { 8 * 7, 8 * 7 };
+    /* create camera and world and center camera on player */
+    World *world = createWorld();
+    centerCameraOnPoint(world->mCamera, character->mPosition);
+
+    /* Load first level */
+    loadLevelOne(world->mMap);
 
     /* Main Loop */
-    while (TRUE) {
-        characterTick(character);
+    bool isRunning = TRUE;
+    while (isRunning) {
+        characterTick(character, world);
 
+        updateCharacterSprite(character, world->mCamera);
+        updateCameraScrollPosition(world->mCamera);
         SPR_update();
         VDP_waitVSync();
     }
+
+    /* deallocate */
+    // todo: deallocate internal pointers, deconstuctor method?
+    MEM_free(world);
+    MEM_free(character);
+    MEM_free(joyHandler);
     return 0;
 }

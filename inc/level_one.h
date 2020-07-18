@@ -5,6 +5,8 @@
 #ifndef MEGADRIVE_MAZE_LEVEL_ONE_H
 #define MEGADRIVE_MAZE_LEVEL_ONE_H
 
-void loadLevelOne();
+#include <genesis.h>
+
+void loadLevelOne(s8 *map);
 
 #endif //MEGADRIVE_MAZE_LEVEL_ONE_H

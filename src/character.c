@@ -2,6 +2,7 @@
 // Created by urban on 17/07/2020.
 //
 
+#include <world.h>
 #include "character.h"
 #include "string.h"
 
@@ -10,7 +11,7 @@ Character *createCharacter() {
     character = MEM_alloc(sizeof *character);
 
     character->mPosition = (V2s16) { 0, 0 };
-    character->mMovementVector = (V2s16) { 0, 0 };;
+    character->mMovementVector = (V2s16) { 0, 0 };
 
     character->mIdleDownSprite = SPR_addSprite(&PlayerIdleDownSprite,
                                                character->mPosition.x,
@@ -30,36 +31,32 @@ void characterJoystick(Character* character, JoystickAction *joystickAction) {
         case LEFT:
             if(joystickAction->mAction == PRESSED) {
                 character->mMovementVector.x = -1;
-            } else {
+            } else if(character->mMovementVector.x == -1) {
                 character->mMovementVector.x = 0;
             }
             break;
         case RIGHT:
             if(joystickAction->mAction == PRESSED) {
                 character->mMovementVector.x = 1;
-            } else {
+            } else if(character->mMovementVector.x == 1) {
                 character->mMovementVector.x = 0;
             }
             break;
         case UP:
             if(joystickAction->mAction == PRESSED) {
                 character->mMovementVector.y = -1;
-            } else {
+            } else if(character->mMovementVector.y == -1) {
                 character->mMovementVector.y = 0;
             }
             break;
         case DOWN:
             if(joystickAction->mAction == PRESSED) {
                 character->mMovementVector.y = 1;
-            } else {
+            } else if(character->mMovementVector.y == 1) {
                 character->mMovementVector.y = 0;
             }
             break;
     }
-}
-
-void characterTick(Character *character) {
-    updatePosition(character);
 }
 
 void setLookDirectionFromMovementVector(Character *character) {
@@ -74,32 +71,46 @@ void setLookDirectionFromMovementVector(Character *character) {
     }
 }
 
-//todo: refactor smaller - duplication
-void updatePosition(Character *character) {
+void characterTick(Character *character, World* world) {
     character->mPosition.x += character->mMovementVector.x;
     character->mPosition.y += character->mMovementVector.y;
     setLookDirectionFromMovementVector(character);
 
+    world->mCamera->mTargetPosition.x -= character->mMovementVector.x;
+    world->mCamera->mTargetPosition.y += character->mMovementVector.y;
+}
+
+//todo: refactor smaller - duplication
+void updateCharacterSprite(Character *character, Camera* camera) {
+
     switch (character->mLookDirection) {
         case LOOK_LEFT:
             SPR_setHFlip(character->mWalkingSprite, 0);
-            SPR_setPosition(character->mWalkingSprite, character->mPosition.x, character->mPosition.y);
+            SPR_setPosition(character->mWalkingSprite,
+                            character->mPosition.x + camera->mPosition.x,
+                            character->mPosition.y - camera->mPosition.y);
             SPR_setPosition(character->mIdleUpSprite, -8, -8);
             SPR_setPosition(character->mIdleDownSprite, -8, -8);
             break;
         case LOOK_UP:
-            SPR_setPosition(character->mIdleUpSprite, character->mPosition.x, character->mPosition.y);
+            SPR_setPosition(character->mIdleUpSprite,
+                            character->mPosition.x + camera->mPosition.x,
+                            character->mPosition.y - camera->mPosition.y);
             SPR_setPosition(character->mIdleDownSprite, -8, -8);
             SPR_setPosition(character->mWalkingSprite, -8, -8);
             break;
         case LOOK_RIGHT:
             SPR_setHFlip(character->mWalkingSprite, 1);
-            SPR_setPosition(character->mWalkingSprite, character->mPosition.x, character->mPosition.y);
+            SPR_setPosition(character->mWalkingSprite,
+                            character->mPosition.x + camera->mPosition.x,
+                            character->mPosition.y - camera->mPosition.y);
             SPR_setPosition(character->mIdleDownSprite, -8, -8);
             SPR_setPosition(character->mIdleUpSprite, -8, -8);
             break;
         case LOOK_DOWN:
-            SPR_setPosition(character->mIdleDownSprite, character->mPosition.x, character->mPosition.y);
+            SPR_setPosition(character->mIdleDownSprite,
+                            character->mPosition.x + camera->mPosition.x,
+                            character->mPosition.y - camera->mPosition.y);
             SPR_setPosition(character->mIdleUpSprite, -8, -8);
             SPR_setPosition(character->mWalkingSprite, -8, -8);
             break;
