@@ -35,8 +35,7 @@ int main() {
             (void (*)(void *, JoystickAction *)) characterJoystick);
     setJoystickOneHandler(joyHandler);
 
-    character->mPosition.x = 8 * 7;
-    character->mPosition.y = 8 * 7;
+    character->mPosition = (V2s16) { 8 * 7, 8 * 7 };
 
     /* Main Loop */
     while (TRUE) {

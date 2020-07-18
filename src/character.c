@@ -9,9 +9,8 @@ Character *createCharacter() {
     Character *character;
     character = MEM_alloc(sizeof *character);
 
-    V2s16 zeroVector = { 0, 0 };
-    character->mMovementVector = zeroVector;
-    character->mMovementVector = zeroVector;
+    character->mPosition = (V2s16) { 0, 0 };
+    character->mMovementVector = (V2s16) { 0, 0 };;
 
     character->mIdleDownSprite = SPR_addSprite(&PlayerIdleDownSprite,
                                                character->mPosition.x,

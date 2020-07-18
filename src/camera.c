@@ -7,7 +7,6 @@
 Camera* createCamera() {
     Camera* camera;
     camera = MEM_alloc(sizeof *camera);
-    V2s16 zeroVector = { 0, 0 };
-    camera->mPosition = zeroVector;
+    camera->mPosition = (V2s16) { 0, 0 };
     return camera;
 }
