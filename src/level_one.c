@@ -7,6 +7,7 @@
 #include <genesis.h>
 #include "resource.h"
 
+// todo: extract to map variable / make level loader generic
 void loadLevelOne() {
 
     s8 roomOne[] = {

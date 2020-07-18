@@ -5,9 +5,8 @@
 #include "character.h"
 #include "string.h"
 
-struct Character *character;
-
-struct Character *initCharacter() {
+struct Character *createCharacter() {
+    struct Character *character;
     character = MEM_alloc(sizeof *character);
     character->mX = 7 * 8;
     character->mY = 7 * 8;
@@ -20,7 +19,8 @@ struct Character *initCharacter() {
     return character;
 }
 
-void characterJoystick(struct JoystickAction *joystickAction) {
+//todo: refactor smaller - duplication
+void characterJoystick(struct Character* character, struct JoystickAction *joystickAction) {
     switch (joystickAction->mButton) {
         case LEFT:
             if(joystickAction->mAction == PRESSED) {
@@ -53,11 +53,11 @@ void characterJoystick(struct JoystickAction *joystickAction) {
     }
 }
 
-void characterTick() {
-    updatePosition();
+void characterTick(struct Character *character) {
+    updatePosition(character);
 }
 
-void setLookDirectionFromMovementVector() {
+void setLookDirectionFromMovementVector(struct Character *character) {
     if(character->mMovementVector.mX > 0) {
         character->mLookDirection = LOOK_RIGHT;
     } else if(character->mMovementVector.mX < 0) {
@@ -69,10 +69,11 @@ void setLookDirectionFromMovementVector() {
     }
 }
 
-void updatePosition() {
+//todo: refactor smaller - duplication
+void updatePosition(struct Character *character) {
     character->mX += character->mMovementVector.mX;
     character->mY += character->mMovementVector.mY;
-    setLookDirectionFromMovementVector();
+    setLookDirectionFromMovementVector(character);
 
     switch (character->mLookDirection) {
         case LOOK_LEFT:

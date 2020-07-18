@@ -6,10 +6,13 @@
 
 #include <genesis.h>
 
-void (*joystickOneFunPointer)(struct JoystickAction*);
+void (*joystickOneFunPointer)(void*, struct JoystickAction*);
 
-void setJoystickOneFunction(void (*functionPointer)(struct JoystickAction*)) {
+void* joyStickOneController;
+
+void setJoystickOneFunction(void* controller, void (*functionPointer)(void*, struct JoystickAction*)) {
     joystickOneFunPointer = functionPointer;
+    joyStickOneController = controller;
 }
 
 struct JoystickAction* createJoystickAction(enum Button button, enum ButtonAction action) {
@@ -21,9 +24,9 @@ struct JoystickAction* createJoystickAction(enum Button button, enum ButtonActio
 
 struct JoystickAction* dispatchButtonActionToJoystickOne(enum Button button, u16 changed, u16 state) {
     if(state & button) {
-        joystickOneFunPointer(createJoystickAction(button, PRESSED));
+        joystickOneFunPointer(joyStickOneController, createJoystickAction(button, PRESSED));
     } else if(changed & button) {
-        joystickOneFunPointer(createJoystickAction(button, RELEASED));
+        joystickOneFunPointer(joyStickOneController, createJoystickAction(button, RELEASED));
     }
 }
 
@@ -35,6 +38,7 @@ void joystickHandler(u16 joystick, u16 changed, u16 state) {
     }
 }
 
+//todo: refactor smaller - duplication? list?
 void joystickOneHandler(u16 changed, u16 state) {
     dispatchButtonActionToJoystickOne(LEFT, changed, state);
     dispatchButtonActionToJoystickOne(UP, changed, state);

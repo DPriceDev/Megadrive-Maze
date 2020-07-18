@@ -28,14 +28,14 @@ int main() {
     /* Pre-game */
     loadLevelOne();
 
+    /* Create character and assign controller */
     VDP_setPalette(PAL1, PlayerWalkingSprite.palette->data);
-
-    initCharacter();
-    setJoystickOneFunction(characterJoystick);
+    struct Character *character = createCharacter();
+    setJoystickOneFunction(character, (void (*)(void *, struct JoystickAction *)) characterJoystick);
 
     /* Main Loop */
     while (TRUE) {
-        characterTick();
+        characterTick(character);
 
         SPR_update();
         VDP_waitVSync();

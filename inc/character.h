@@ -31,12 +31,12 @@ struct Character {
     struct MovementVector mMovementVector;
 };
 
-struct Character *initCharacter();
+struct Character *createCharacter();
 
-void characterTick();
+void characterTick(struct Character *character);
 
-void updatePosition();
+void updatePosition(struct Character *character);
 
-void characterJoystick(struct JoystickAction* joystickAction);
+void characterJoystick(struct Character* character, struct JoystickAction *joystickAction);
 
 #endif //MEGADRIVE_MAZE_CHARACTER_H
