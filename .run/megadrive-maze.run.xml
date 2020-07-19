@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="megadrive-maze" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="C:\Projects\Prog_SegaMegaDriveGame\Megadrive-Maze\out\rom.bin" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Megadrive-Maze" TARGET_NAME="megadrive-maze" CONFIG_NAME="Debug" RUN_PATH="$PROJECT_DIR$/../gensk/gens.exe">
+    <method v="2">
+      <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+    </method>
+  </configuration>
+</component>

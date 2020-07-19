@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Gensk Debug" type="CLion_Remote" debugger="$PROJECT_DIR$/depends/sgdk/bin/gdb.exe" remoteCommand="localhost:6868" symbolFile="$PROJECT_DIR$/out/rom.out" sysroot="">
+    <method v="2" />
+  </configuration>
+</component>
