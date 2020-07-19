@@ -56,3 +56,4 @@ dkms.conf
 /cmake-build-debug/
 /.idea/
 /cmake-build-release/
+out.lst

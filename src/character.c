@@ -6,26 +6,22 @@
 #include "character.h"
 #include "string.h"
 
-Character *createCharacter() {
+Character *createCharacter(const SpriteDefinition *spriteDefinition) {
     Character *character;
     character = MEM_alloc(sizeof *character);
 
     character->mPosition = (V2s16) { 0, 0 };
     character->mMovementVector = (V2s16) { 0, 0 };
 
-    character->mIdleDownSprite = SPR_addSprite(&PlayerIdleDownSprite,
-                                               character->mPosition.x,
-                                               character->mPosition.y,
-                                               TILE_ATTR(PAL1, 1, 0, 0));
-
-    character->mWalkingSprite = SPR_addSprite(&PlayerWalkingSprite, -8, -8, TILE_ATTR(PAL1, 1, 0, 0));
-    character->mIdleUpSprite = SPR_addSprite(&PlayerIdleUpSprite, -8, -8, TILE_ATTR(PAL1, 1, 0, 0));
-
+    character->mSprite = SPR_addSprite(spriteDefinition,
+                                       character->mPosition.x,
+                                       character->mPosition.y,
+                                       TILE_ATTR(PAL1, 1, 0, 0));
     character->mLookDirection = LOOK_DOWN;
     return character;
 }
 
-s16 updateMovementVector(ButtonAction action, s16 currentDirection, s16 moveDirection) {
+s16 updateMovementVector(const ButtonAction action, const s16 currentDirection, const s16 moveDirection) {
     if(action == PRESSED) {
         return moveDirection;
     } else if(currentDirection == moveDirection) {
@@ -35,7 +31,7 @@ s16 updateMovementVector(ButtonAction action, s16 currentDirection, s16 moveDire
     }
 }
 
-void characterJoystick(Character* character, JoystickAction *joystickAction) {
+void characterJoystick(Character* character, const JoystickAction *joystickAction) {
     switch (joystickAction->mButton) {
         case LEFT:
             character->mMovementVector.x = updateMovementVector(joystickAction->mAction,
@@ -81,46 +77,25 @@ void characterTick(Character *character, Camera* camera) {
     camera->mTargetPosition.y += character->mMovementVector.y;
 }
 
-// todo: switch to hide/show mechanics
-void setActiveSpriteAndPosition(Character *character, Camera* camera, CharacterSprite sprite) {
-    SPR_setPosition(character->mWalkingSprite, -8, -8);
-    SPR_setPosition(character->mIdleUpSprite, -8, -8);
-    SPR_setPosition(character->mIdleDownSprite, -8, -8);
-    switch (sprite) {
-        case IDLE_DOWN:
-            SPR_setPosition(character->mIdleDownSprite,
-                            character->mPosition.x + camera->mPosition.x,
-                            character->mPosition.y - camera->mPosition.y);
-            break;
-        case IDLE_UP:
-            SPR_setPosition(character->mIdleUpSprite,
-                            character->mPosition.x + camera->mPosition.x,
-                            character->mPosition.y - camera->mPosition.y);
-            break;
-        case WALKING_HORIZONTAL:
-            SPR_setPosition(character->mWalkingSprite,
-                            character->mPosition.x + camera->mPosition.x,
-                            character->mPosition.y - camera->mPosition.y);
-            break;
-    }
-}
-
-void updateCharacterSprite(Character *character, Camera* camera) {
-
+void updateCharacterSprite(Character *character, const Camera* camera) {
+    SPR_setPosition(character->mSprite,
+                    character->mPosition.x + camera->mPosition.x,
+                    character->mPosition.y - camera->mPosition.y);
     switch (character->mLookDirection) {
         case LOOK_LEFT:
-            SPR_setHFlip(character->mWalkingSprite, 0);
-            setActiveSpriteAndPosition(character, camera, WALKING_HORIZONTAL);
+            SPR_setHFlip(character->mSprite, 0);
+            SPR_setAnim(character->mSprite, WALKING_HORIZONTAL);
             break;
         case LOOK_UP:
-            setActiveSpriteAndPosition(character, camera, IDLE_UP);
+            SPR_setAnim(character->mSprite, IDLE_UP);
             break;
         case LOOK_RIGHT:
-            SPR_setHFlip(character->mWalkingSprite, 1);
-            setActiveSpriteAndPosition(character, camera, WALKING_HORIZONTAL);
+            SPR_setHFlip(character->mSprite, 1);
+            SPR_setAnim(character->mSprite, WALKING_HORIZONTAL);
+
             break;
         case LOOK_DOWN:
-            setActiveSpriteAndPosition(character, camera, IDLE_DOWN);
+            SPR_setAnim(character->mSprite, IDLE_DOWN);
             break;
     }
 }

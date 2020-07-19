@@ -36,7 +36,9 @@ void joystickHandler(u16 joystick, u16 changed, u16 state) {
     if (joystick == JOY_1) {
         dispatchJoystickUpdate(joystickOneHandler, changed, state);
     } else {
-        dispatchJoystickUpdate(joystickTwoHandler, changed, state);
+        if(joystickTwoHandler != NULL) {
+            dispatchJoystickUpdate(joystickTwoHandler, changed, state);
+        }
     }
 }
 

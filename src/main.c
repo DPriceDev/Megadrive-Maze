@@ -32,8 +32,8 @@ int main() {
      */
 
     /* Create character and assign controller */
-    VDP_setPalette(PAL1, PlayerWalkingSprite.palette->data);
-    Character *character = createCharacter();
+    VDP_setPalette(PAL1, player.palette->data);
+    Character *character = createCharacter(&player);
     character->mPosition = (V2s16) { 7 * 8, 7 * 8 };
 
     JoystickHandler* joyHandler = createJoystickHandler(character,

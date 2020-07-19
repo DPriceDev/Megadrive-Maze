@@ -35,7 +35,7 @@ void updateCameraScrollPosition(Camera* camera) {
     VDP_setVerticalScroll(BG_B, camera->mPosition.y);
 }
 
-void centerCameraOnPoint(Camera* camera, V2s16 point) {
+void centerCameraOnPoint(Camera* camera, const V2s16 point) {
     camera->mPosition.x = -point.x + (camera->mSize.x / 2);
     camera->mPosition.y = point.y - (camera->mSize.y / 2);
     camera->mTargetPosition = camera->mPosition;
