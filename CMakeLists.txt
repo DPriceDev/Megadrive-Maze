@@ -24,19 +24,16 @@ ELSE()
     set(type clean release)
 ENDIF()
 
+set(GDK ${CMAKE_CURRENT_SOURCE_DIR}/depends/sgdk)
+set(GDK_WIN ${CMAKE_CURRENT_SOURCE_DIR}\\depends\\sgdk)
+
 set(SGDK_COMPILE_COMMAND
-        ${CMAKE_CURRENT_SOURCE_DIR}/depends/sgdk/bin/make.exe
-        GDK=C:/Projects/Prog_SegaMegaDriveGame/Megadrive-Maze/depends/sgdk
-        GDK_WIN=C:\\Projects\\Prog_SegaMegaDriveGame\\Megadrive-Maze\\depends\\sgdk
-        -f ${CMAKE_CURRENT_SOURCE_DIR}/depends/sgdk/makelib.gen
-        ${type})
+        ${CMAKE_CURRENT_SOURCE_DIR}/depends/sgdk/bin/make.exe GDK=${GDK} GDK_WIN=${GDK_WIN}
+        -f ${CMAKE_CURRENT_SOURCE_DIR}/depends/sgdk/makelib.gen ${type})
 
 set(PROJECT_COMPILE_COMMAND
-        ${CMAKE_CURRENT_SOURCE_DIR}/depends/sgdk/bin/make.exe
-        GDK=C:/Projects/Prog_SegaMegaDriveGame/Megadrive-Maze/depends/sgdk
-        GDK_WIN=C:\\Projects\\Prog_SegaMegaDriveGame\\Megadrive-Maze\\depends\\sgdk
-        -f ${CMAKE_CURRENT_SOURCE_DIR}/depends/sgdk/makefile.gen
-        ${type})
+        ${CMAKE_CURRENT_SOURCE_DIR}/depends/sgdk/bin/make.exe GDK=${GDK} GDK_WIN=${GDK_WIN}
+        -f ${CMAKE_CURRENT_SOURCE_DIR}/depends/sgdk/makefile.gen ${type})
 
 add_custom_target(megadrive-maze ALL ${SGDK_COMPILE_COMMAND}
         COMMAND ${PROJECT_COMPILE_COMMAND}
