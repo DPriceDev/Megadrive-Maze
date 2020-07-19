@@ -5,7 +5,7 @@
 #include "camera.h"
 
 static const s16 sBoundingBox = 32;
-static const V2s16 sPalViewport = { 320, 240 };
+static const V2s16 sPalViewport = { 256, 240 };
 
 Camera* createCamera() {
     Camera* camera;
@@ -35,15 +35,8 @@ void updateCameraScrollPosition(Camera* camera) {
     VDP_setVerticalScroll(BG_B, camera->mPosition.y);
 }
 
-void centerCameraOnPoint(Camera* camera, V2s16 point) {
-    camera->mPosition.x = point.x + (camera->mSize.x / 2);
+void centerCameraOnPoint(Camera* camera, const V2s16 point) {
+    camera->mPosition.x = -point.x + (camera->mSize.x / 2);
     camera->mPosition.y = point.y - (camera->mSize.y / 2);
     camera->mTargetPosition = camera->mPosition;
-//
-//    char xpos[10];
-//    sprintf(xpos, "xpos: %d", camera->mPosition.x);
-//    VDP_drawText(xpos, 6, 1);
-//
-//    sprintf(xpos, "ypos: %d", camera->mPosition.y);
-//    VDP_drawText(xpos, 6, 2);
 }

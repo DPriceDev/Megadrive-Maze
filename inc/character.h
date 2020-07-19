@@ -18,21 +18,25 @@ typedef enum  {
     LOOK_DOWN
 } LookDirection;
 
+typedef enum {
+    IDLE_DOWN = 0,
+    IDLE_UP = 1,
+    WALKING_HORIZONTAL = 2
+} CharacterSprite;
+
 typedef struct {
-    Sprite* mWalkingSprite;
-    Sprite* mIdleDownSprite;
-    Sprite* mIdleUpSprite;
+    Sprite* mSprite;
     V2s16 mPosition;
     V2s16 mMovementVector;
     LookDirection mLookDirection;
 } Character;
 
-Character *createCharacter();
+Character *createCharacter(const SpriteDefinition *spriteDefinition);
 
 void characterTick(Character *character, Camera* camera);
+void updateCharacterSprite(Character *character, const Camera* camera);
+void characterJoystick(Character* character, const JoystickAction *joystickAction);
 
-void updateCharacterSprite(Character *character, Camera* camera);
-
-void characterJoystick(Character* character, JoystickAction *joystickAction);
+s16 updateMovementVector(ButtonAction action, s16 currentDirection, s16 moveDirection);
 
 #endif //MEGADRIVE_MAZE_CHARACTER_H

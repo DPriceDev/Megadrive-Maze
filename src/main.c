@@ -16,9 +16,9 @@ int main() {
 
     /* initialise video display processor */
     VDP_init();
-    VDP_setScreenWidth320();
+    VDP_setScreenWidth256();
     VDP_setScreenHeight240();
-    VDP_setPlanSize(64, 64);
+    VDP_setPlaneSize(64, 64, TRUE);
 
     /* Initialize joysticks */
     JOY_init();
@@ -32,11 +32,12 @@ int main() {
      */
 
     /* Create character and assign controller */
-    VDP_setPalette(PAL1, PlayerWalkingSprite.palette->data);
-    Character *character = createCharacter();
+    VDP_setPalette(PAL1, player.palette->data);
+    Character *character = createCharacter(&player);
+    character->mPosition = (V2s16) { 7 * 8, 7 * 8 };
+
     JoystickHandler* joyHandler = createJoystickHandler(character,
             (void (*)(void *, JoystickAction *)) characterJoystick);
-
     setJoystickOneHandler(joyHandler);
 
     /* create camera and world and center camera on player */

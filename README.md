@@ -125,10 +125,46 @@ Program Arguement: C:\..path_to_repo\Megadrive-Maze\out\rom.bin
 
 Now clicking the green run arrow in the IDE will build the rom and then launch it into the emulator.
 
+## Debugging
+
+Debugging can be set up with the gensk emulator by connect to its GDB server with clion. Make sure you are on the debug variant of the target, 
+which can be set in the configuration dropdown, and you have built "MEGADRIVE-MAZE | DEBUG" at least once.
+
+Once you have the debug build, open the configurations, from the dropdown, or from:
+```
+run -> edit configurations...
+```
+
+Then create a new build configuration with Remote GDB. This configuration allows clion to connect to gensk to
+allow us to debug.
+```
++ (add new configuration) -> GDB Remote Debug
+name: Gensk Debug
+```
+
+Finally, you can fill in the configuration with the path to the GDB debugger, located in the SGDK, and the path to the
+rom.out, located in the out folder of the project.
+
+```
+CMake Configuration
+name: GDB Remote Debug
+GDB: C:\..path_to_emulator..\gensk\GDB.exe
+'target remote' args: localhost:6868
+Symbol file: C:\..path_to_repo\Megadrive-Maze\out\rom.out
+```
+
+Once created, you can run the target "MEGADRIVE-MAZE | DEBUG", and then switch to this new "GDB Remote Debug" configuration, and click
+the debug button. This will connect the IDE to gensk and will allow debugging.
+
 ## Additional
 
 The project comes with a CMakeList.txt file for compatibility with Clion; however, it does not play an active role in the build
 system, and only provides IDE support for discovering includes and source files.
+
+## Troubleshooting
+
+If you have trouble building the Debug build, it may help to build the release first, as sometimes the debug build of sgdk doesnt create the
+symbols.txt file before it is required.
 
 ## Built With
 
