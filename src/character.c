@@ -25,36 +25,37 @@ Character *createCharacter() {
     return character;
 }
 
-//todo: refactor smaller - duplication
+s16 updateMovementVector(ButtonAction action, s16 currentDirection, s16 moveDirection) {
+    if(action == PRESSED) {
+        return moveDirection;
+    } else if(currentDirection == moveDirection) {
+        return 0;
+    } else {
+        return currentDirection;
+    }
+}
+
 void characterJoystick(Character* character, JoystickAction *joystickAction) {
     switch (joystickAction->mButton) {
         case LEFT:
-            if(joystickAction->mAction == PRESSED) {
-                character->mMovementVector.x = -1;
-            } else if(character->mMovementVector.x == -1) {
-                character->mMovementVector.x = 0;
-            }
+            character->mMovementVector.x = updateMovementVector(joystickAction->mAction,
+                                                                character->mMovementVector.x,
+                                                                -1);
             break;
         case RIGHT:
-            if(joystickAction->mAction == PRESSED) {
-                character->mMovementVector.x = 1;
-            } else if(character->mMovementVector.x == 1) {
-                character->mMovementVector.x = 0;
-            }
+            character->mMovementVector.x = updateMovementVector(joystickAction->mAction,
+                                                                character->mMovementVector.x,
+                                                                1);
             break;
         case UP:
-            if(joystickAction->mAction == PRESSED) {
-                character->mMovementVector.y = -1;
-            } else if(character->mMovementVector.y == -1) {
-                character->mMovementVector.y = 0;
-            }
+            character->mMovementVector.y = updateMovementVector(joystickAction->mAction,
+                                                                character->mMovementVector.y,
+                                                                -1);
             break;
         case DOWN:
-            if(joystickAction->mAction == PRESSED) {
-                character->mMovementVector.y = 1;
-            } else if(character->mMovementVector.y == 1) {
-                character->mMovementVector.y = 0;
-            }
+            character->mMovementVector.y = updateMovementVector(joystickAction->mAction,
+                                                                character->mMovementVector.y,
+                                                                1);
             break;
     }
 }
@@ -80,39 +81,46 @@ void characterTick(Character *character, Camera* camera) {
     camera->mTargetPosition.y += character->mMovementVector.y;
 }
 
-//todo: refactor smaller - duplication
+// todo: switch to hide/show mechanics
+void setActiveSpriteAndPosition(Character *character, Camera* camera, CharacterSprite sprite) {
+    SPR_setPosition(character->mWalkingSprite, -8, -8);
+    SPR_setPosition(character->mIdleUpSprite, -8, -8);
+    SPR_setPosition(character->mIdleDownSprite, -8, -8);
+    switch (sprite) {
+        case IDLE_DOWN:
+            SPR_setPosition(character->mIdleDownSprite,
+                            character->mPosition.x + camera->mPosition.x,
+                            character->mPosition.y - camera->mPosition.y);
+            break;
+        case IDLE_UP:
+            SPR_setPosition(character->mIdleUpSprite,
+                            character->mPosition.x + camera->mPosition.x,
+                            character->mPosition.y - camera->mPosition.y);
+            break;
+        case WALKING_HORIZONTAL:
+            SPR_setPosition(character->mWalkingSprite,
+                            character->mPosition.x + camera->mPosition.x,
+                            character->mPosition.y - camera->mPosition.y);
+            break;
+    }
+}
+
 void updateCharacterSprite(Character *character, Camera* camera) {
 
     switch (character->mLookDirection) {
         case LOOK_LEFT:
             SPR_setHFlip(character->mWalkingSprite, 0);
-            SPR_setPosition(character->mWalkingSprite,
-                            character->mPosition.x + camera->mPosition.x,
-                            character->mPosition.y - camera->mPosition.y);
-            SPR_setPosition(character->mIdleUpSprite, -8, -8);
-            SPR_setPosition(character->mIdleDownSprite, -8, -8);
+            setActiveSpriteAndPosition(character, camera, WALKING_HORIZONTAL);
             break;
         case LOOK_UP:
-            SPR_setPosition(character->mIdleUpSprite,
-                            character->mPosition.x + camera->mPosition.x,
-                            character->mPosition.y - camera->mPosition.y);
-            SPR_setPosition(character->mIdleDownSprite, -8, -8);
-            SPR_setPosition(character->mWalkingSprite, -8, -8);
+            setActiveSpriteAndPosition(character, camera, IDLE_UP);
             break;
         case LOOK_RIGHT:
             SPR_setHFlip(character->mWalkingSprite, 1);
-            SPR_setPosition(character->mWalkingSprite,
-                            character->mPosition.x + camera->mPosition.x,
-                            character->mPosition.y - camera->mPosition.y);
-            SPR_setPosition(character->mIdleDownSprite, -8, -8);
-            SPR_setPosition(character->mIdleUpSprite, -8, -8);
+            setActiveSpriteAndPosition(character, camera, WALKING_HORIZONTAL);
             break;
         case LOOK_DOWN:
-            SPR_setPosition(character->mIdleDownSprite,
-                            character->mPosition.x + camera->mPosition.x,
-                            character->mPosition.y - camera->mPosition.y);
-            SPR_setPosition(character->mIdleUpSprite, -8, -8);
-            SPR_setPosition(character->mWalkingSprite, -8, -8);
+            setActiveSpriteAndPosition(character, camera, IDLE_DOWN);
             break;
     }
 }

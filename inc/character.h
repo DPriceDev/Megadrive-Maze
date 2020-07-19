@@ -18,6 +18,12 @@ typedef enum  {
     LOOK_DOWN
 } LookDirection;
 
+typedef enum {
+    IDLE_DOWN,
+    IDLE_UP,
+    WALKING_HORIZONTAL
+} CharacterSprite;
+
 typedef struct {
     Sprite* mWalkingSprite;
     Sprite* mIdleDownSprite;
