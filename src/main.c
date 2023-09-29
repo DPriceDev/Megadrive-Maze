@@ -25,14 +25,14 @@ int main() {
     JOY_setEventHandler(&joystickHandler);
 
     /* Initialize Sprite Engine */
-    SPR_init(0, 0, 0);
+    SPR_init();
 
     /*
      * Pre-game
      */
 
     /* Create character and assign controller */
-    VDP_setPalette(PAL1, player.palette->data);
+    PAL_setPalette(PAL1, player.palette->data, CPU);
     Character *character = createCharacter(&player);
     character->mPosition = (V2s16) { 7 * 8, 7 * 8 };
 

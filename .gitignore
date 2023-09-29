@@ -57,3 +57,8 @@ dkms.conf
 /.idea/
 /cmake-build-release/
 out.lst
+
+# CMake
+build
+
+.DS_Store
