@@ -15,13 +15,15 @@ build:	pull
 clean:
 	rm -rf build out/*
 
-UID=$(shell id -u)
-GID=$(shell id -g)
+OSM=$(shell uname -sm)
+ifeq ($(OSM),Darwin arm64) # Mac OS X - arm
+    M1=-m1
+endif
 docker-build-sgdk:	pull
-	cd ${SGDK_FOLDER} && docker build . -t sgdk:${SGDK_VERSION}
+	cd ${SGDK_FOLDER} && docker build . -f Dockerfile${M1} -t sgdk:${SGDK_VERSION}${M1}
 
-docker-compile:
-	docker run -it --rm --user ${UID}:${GID} -v "${PWD}":/workdir -w /workdir sgdk:${SGDK_VERSION} make -f /sgdk/makefile.gen
+docker-build:	docker-build-sgdk
+	docker run -it --rm -v "${PWD}":/src -w /src sgdk:${SGDK_VERSION}${M1}
 
 docker-shell:
-	docker run -it --rm --user ${UID}:${GID} -v "${PWD}":/workdir -w /workdir --entrypoint=/bin/bash sgdk:${SGDK_VERSION}
+	docker run -it --rm -v "${PWD}":/src -w /src --entrypoint=/bin/bash sgdk:${SGDK_VERSION}${M1}
