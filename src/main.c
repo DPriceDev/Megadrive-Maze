@@ -25,7 +25,7 @@ int main() {
     JOY_setEventHandler(&joystickHandler);
 
     /* Initialize Sprite Engine */
-    SPR_init(0, 0, 0);
+    SPR_init();
 
     /*
      * Pre-game
