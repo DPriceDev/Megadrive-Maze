@@ -1,9 +1,8 @@
 name: C/C++ CI
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ develop ]
+    branches: [ develop, docker ]
   pull_request:
     branches: [ develop ]
 
