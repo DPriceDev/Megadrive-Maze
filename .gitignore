@@ -60,3 +60,5 @@ out.lst
 
 # CMake
 build
+
+.DS_Store
