@@ -49,7 +49,7 @@ void loadLevelOne(s8 *map) {
 
     VDP_setBackgroundColor(2);
 
-    VDP_setPalette(PAL2, tilemap.palette->data);
+    PAL_setPalette(PAL2, tilemap.palette->data, CPU);
     VDP_loadTileSet(tilemap.tileset,1,CPU);
 
     // todo: refactor duplication
